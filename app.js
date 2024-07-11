@@ -1,17 +1,9 @@
-/*
-let title = document.querySelector('h1');  // Permite acceder/conectar a cada elemento
-title.innerHTML = 'Juegazo mágico';
-
-let para = document.querySelector('p');  // se puede llamar a la etiqueta o a la clase 
-para.innerHTML = 'Ingresa un número (del 1 al 10)';
-*/
-
+// Inicialización de variables
 let secretNumber = 0;
 let tries = 0;
 let userNumberList = [];
 let repetitiveSecretNumberList = [];
 let maxNumber = 10;
-
 
 
 function textToElementAsign(elemento, texto) {
@@ -21,18 +13,16 @@ function textToElementAsign(elemento, texto) {
 }
 
 
-function getSecretNumber() {  // Función recursiva
-    let secretNumber = Math.floor(Math.random() * maxNumber) + 1;  // +1 Para que sean numeros del 1 al 10
-    // Cambio para que no se repita el número a adivinar
-    if (repetitiveSecretNumberList.length == maxNumber) {  // Condicion de salida de recursiv.
+function getSecretNumber() {
+    let secretNumber = Math.floor(Math.random() * maxNumber) + 1;
+
+    if (repetitiveSecretNumberList.length == maxNumber) {
         return -1;
     
     } else {
         if (repetitiveSecretNumberList.includes(secretNumber)){
-            // Nro screto SI está en la lista (Si se repite)
             return getSecretNumber();
         } else {
-            // El numero secreto NO está en la lista (No se repite)
             repetitiveSecretNumberList.push(secretNumber);
             console.log(`Lista de números secretos usados: ${repetitiveSecretNumberList}`);
             return secretNumber;
@@ -48,7 +38,6 @@ function initCond() {
     secretNumber = getSecretNumber();
     if (secretNumber == -1) {
         textToElementAsign('p', 'Se llegó al maximo de juegos!');
-        // document.getElementById('reiniciar').removeAttribute('disabled')
         document.getElementById('adivinar').setAttribute('disabled', 'true');
     } else {
         secretNumber = secretNumber;
@@ -61,21 +50,13 @@ function initCond() {
 
 
 function clearInputBox() {
-    /*
-    let boxValue = document.querySelector('#userNumberInput');  // Obtener por Id de otra forma || querySelector es un selector egnérico
-    boxValue.value = '';
-    */
-    document.querySelector('#userNumberInput').value = '';  // Otra forma mas corta
+    document.querySelector('#userNumberInput').value = '';
 }
 
 
-function triesVerify() {  // Se inicializa con el boton "Adivinar"
-    // Console.log para indicar comienzo
+function triesVerify() {
     console.log("-------------------------- Inicio --------------------------");
-    // alert('Se llamó a la función');
-    let userInput = parseInt(document.getElementById('userNumberInput').value);  // Obtener datos del input por Id
-
-    // Verificación de datos
+    let userInput = parseInt(document.getElementById('userNumberInput').value);
     console.log(`Ingresado por el usuario: ${userInput}`);
     console.log(typeof(userInput));
     console.log(secretNumber == userInput);
@@ -90,23 +71,19 @@ function triesVerify() {  // Se inicializa con el boton "Adivinar"
         } else {
             textToElementAsign('p', 'El número secreto es mayor');
         }
-        tries++;  // Dentro del esle cuenta unicamente cuando no es adivinado
-        clearInputBox();  // Dentro del else para que lo borre solo al reintentar
+        tries++;
+        clearInputBox();
     }
 
-    // Lista de numeros usados
     usedNumbers(userInput);
 
     return;
 }
 
 
-function resetGame() {  // Se inicializa con el boton "Reiniciar juego"
-    //Limpiar la caja de input
+function resetGame() {
     clearInputBox();
-    // Volver a las condiciones iniciales || impresion de titulos || nro intentos || numero secreto nuevo
     initCond();
-    // Deshabilitar boton de nuevo juego
     document.getElementById('reiniciar').setAttribute('disabled', 'true');
     return;
 }
